@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Wrapper, CounterText, Button, Label, Input } from "./Components";
 
 
@@ -48,6 +48,23 @@ export const CounterPage = () => {
         }
     }
     , [innitailCounter]);
+
+ const decrement = useMemo(() => {
+        return (e) => {
+            setCounter((prevCounter) => prevCounter - 1);
+        }
+    }, [setCounter]);
+    const increment = useMemo(() => {
+        return (e) => {
+            setCounter((prevCounter) => prevCounter + 1);
+        }
+    }, [setCounter]);
+    const handlChange = useMemo(() => {
+        return (e) => {
+            setInnitailCounter(e.target.value);
+            setCounter(e.target.value);
+        }
+    }, [setInnitailCounter, setCounter]);
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -55,18 +72,15 @@ export const CounterPage = () => {
         <Wrapper>
             <CounterText>{counter}</CounterText>
             <div>
-                <Button onClick={() => setCounter((prevCounter) => prevCounter - 1)}>-1</Button>
-                <Button onClick={() => setCounter((prevCounter) => prevCounter + 1)}>+1</Button>
+                <Button onClick={decrement}>-1</Button>
+                <Button onClick={increment}>+1</Button>
             </div>
             <Label>Set Initial Counter</Label>
             <Input
                 ref = {inputfocusEl}
                 type="number"
                 value={innitailCounter}
-                onChange={(e) => {
-                    setInnitailCounter(e.target.value);
-                    setCounter(e.target.value);
-                }}
+                onChange={handlChange}
             />
         </Wrapper>
     );
