@@ -3,21 +3,45 @@ import { Wrapper, CounterText, Button, Label, Input } from "./Components";
 
 
 export const CounterPage = () => {
-    const [innitailCounter, setInnitailCounter] = useState(10);
+    const [innitailCounter, setInnitailCounter] = useState(0);
     const [counter, setCounter] = useState(innitailCounter);
+    const [loading, setLoading] = useState(false);
     
+    const getInnitailCounter = () => new Promise((resresolve) => {
+        setTimeout(() => {
+            resresolve(10);
+        }
+        , 1000);
+    })
+
+    useEffect(() => {
+        setLoading(true);
+        getInnitailCounter().then((innitailCounter) => {
+            setLoading(false);
+            setCounter(innitailCounter);
+        });
+    },[]);
+
 
 
     useEffect(() => {
-        setCounter(innitailCounter);
-        const interval = setInterval(() => {
-            setCounter((prevCounter) => prevCounter > 0 ? prevCounter - 1 : prevCounter
-        );
-        }, 1000);
-
-         return () => clearInterval(interval);
+        let interval;
+            setCounter(innitailCounter);
+             interval = setInterval(() => {
+                setCounter((prevCounter) => prevCounter > 0 ? prevCounter - 1 : prevCounter
+            );
+            }, 1000);
+  
+         return () =>{
+             if (interval){
+            clearInterval(interval);
+         }
+        }
     }
     , [innitailCounter]);
+    if (loading) {
+        return <div>Loading...</div>;
+    }
     return (
         <Wrapper>
             <CounterText>{counter}</CounterText>
