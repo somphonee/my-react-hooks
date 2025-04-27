@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Wrapper, CounterText, Button, Label, Input } from "./Components";
 
 
@@ -6,6 +6,7 @@ export const CounterPage = () => {
     const [innitailCounter, setInnitailCounter] = useState(0);
     const [counter, setCounter] = useState(innitailCounter);
     const [loading, setLoading] = useState(false);
+    const inputfocusEl = useRef(null);
     
     const getInnitailCounter = () => new Promise((resresolve) => {
         setTimeout(() => {
@@ -21,6 +22,14 @@ export const CounterPage = () => {
             setCounter(innitailCounter);
         });
     },[]);
+
+
+    useEffect(() => {
+        if(!loading){
+            inputfocusEl.current.focus();
+        }
+
+    }, [loading]);
 
 
 
@@ -51,6 +60,7 @@ export const CounterPage = () => {
             </div>
             <Label>Set Initial Counter</Label>
             <Input
+                ref = {inputfocusEl}
                 type="number"
                 value={innitailCounter}
                 onChange={(e) => {
