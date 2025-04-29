@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { Wrapper, CounterText, Button, Label, Input } from "./Components";
 
 
@@ -49,23 +49,20 @@ export const CounterPage = () => {
     }
     , [innitailCounter]);
 
- const decrement = useMemo(() => {
-        return (e) => {
+ const decrement = useCallback(() => {
             setCounter((prevCounter) => prevCounter - 1);
-        }
-    }, [setCounter]);
-    const increment = useMemo(() => {
-        return (e) => {
-            setCounter((prevCounter) => prevCounter + 1);
-        }
+        
     }, [setCounter]);
 
-    const handlChange = useMemo(() => {
-        return (e) => {
+    const increment = useCallback(() => {
+            setCounter((prevCounter) => prevCounter + 1 ); 
+    }, [setCounter]);
+
+    const handlChange = useCallback(
+        (e) => {
             setInnitailCounter(e.target.value);
-        }
     }, [setInnitailCounter]);
-    
+
     if (loading) {
         return <div>Loading...</div>;
     }
