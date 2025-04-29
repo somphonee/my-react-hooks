@@ -1,37 +1,18 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Wrapper, CounterText, Button, Label, Input } from "./Components";
-
+import { useApi } from "./hooks";
 
 export const CounterPage = () => {
-    const [innitailCounter, setInnitailCounter] = useState(0);
-    const [counter, setCounter] = useState(innitailCounter);
-    const [loading, setLoading] = useState(false);
+   
     const inputfocusEl = useRef(null);
-    
-    const getInnitailCounter = () => new Promise((resresolve) => {
-        setTimeout(() => {
-            resresolve(10);
-        }
-        , 1000);
-    })
-
-    useEffect(() => {
-        setLoading(true);
-        getInnitailCounter().then((innitailCounter) => {
-            setLoading(false);
-            setCounter(innitailCounter);
-        });
-    },[]);
-
-
+    const [counter, setCounter] = useState(0);
+    const { loading, innitailCounter, setInnitailCounter } = useApi();  
     useEffect(() => {
         if(!loading){
             inputfocusEl.current.focus();
         }
 
     }, [loading]);
-
-
 
     useEffect(() => {
         let interval;
