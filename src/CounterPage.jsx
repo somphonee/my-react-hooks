@@ -59,15 +59,17 @@ export const CounterPage = () => {
             setCounter((prevCounter) => prevCounter + 1);
         }
     }, [setCounter]);
+
     const handlChange = useMemo(() => {
         return (e) => {
             setInnitailCounter(e.target.value);
-            setCounter(e.target.value);
         }
-    }, [setInnitailCounter, setCounter]);
+    }, [setInnitailCounter]);
+    
     if (loading) {
         return <div>Loading...</div>;
     }
+
     return (
         <Wrapper>
             <CounterText>{counter}</CounterText>
