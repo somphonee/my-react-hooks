@@ -6,13 +6,14 @@ export const CounterPage = () => {
    
     const inputfocusEl = useRef(null);
     const [counter, setCounter] = useState(0);
-    const { loading, innitailCounter, setInnitailCounter } = useApi();  
     useEffect(() => {
         if(!loading){
             inputfocusEl.current.focus();
         }
 
     }, [loading]);
+    
+    const {loading: dataLodading, data} = useApi("https://......");
 
     useEffect(() => {
         let interval;

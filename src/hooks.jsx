@@ -1,29 +1,22 @@
 
 
 import { useState, useEffect } from "react";
-export const useApi = () => {
-     const [loading, setLoading] = useState(false);
-     const [innitailCounter, setInnitailCounter] = useState(0);
-    
+export const useApi = (url) => {
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(false);
 
-      const getInnitailCounter = () => new Promise((resresolve) => {
-            setTimeout(() => {
-                resresolve(10);
-            }
-            , 1000);
-        })
-    
-      useEffect(() => {
-            setLoading(true);
-            getInnitailCounter().then((innitailCounter) => {
+    useEffect(() => {
+        setLoading(true);
+        fetch(url)
+            .then((resp) => resp.json())
+            .then((data) => {
                 setLoading(false);
-                setInnitailCounter(innitailCounter);
+                setData(data);
             });
-        },[]);
-        return {
-            loading,
-            innitailCounter,
-            setInnitailCounter
-        };
-        
+    }, []);
+    return {
+        loading,
+        data
+    };
+
 };
